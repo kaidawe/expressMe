@@ -1,0 +1,15 @@
+main {
+        margin-top: 5em;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "col1   col2"
+}
+
+.bodytext {
+    grid-area: col1;
+}
+
+.sideBarNav{
+    grid-area: col2;
+    justify-content: right;
+}

@@ -1,0 +1,11 @@
+
+<% for (let i = 0; i < profiles.length; i++) { %>
+    <% if(profiles[i].id === profileId) { %>
+        <%= profiles[i].name%>
+        <%= profiles[i].imagePath %>
+        <ul>
+            <% for (let j = 0; j < profiles[i].interest.length; j++) { %>
+                <li><%= profiles[i].interest[j]%></li><% } %>
+        </ul>
+    <% } %>
+    <% } %>

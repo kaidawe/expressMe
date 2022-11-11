@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="sidebar-nav" type="text/css" href="/styles/sidebar-style.css">
+    <title><%= title %></title>
+  </head>
+  <body>
+    <%- include('../partials/header.ejs') %>
+
+    <main>
+        <section id = "bodytext"><%- body %></section>
+    
+        <nav id="sideBarNav">
+            <ul>
+                <% for (let i = 0; i < profiles.length; i++) { %>
+                <li><a href="/profiles/<%= profiles[i].id%>"><%= profiles[i].name%></a></li>
+                <% } %>
+              </ul>
+        </nav>
+
+    </main>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>

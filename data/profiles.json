@@ -1,0 +1,31 @@
+[
+    {
+        "id": "haley",
+        "name": "Haley Kai",
+        "imagePath": "",
+        "interest": [
+                "Video games",
+                "cooking",
+                "trading"
+        ]
+    },
+    {
+        "id": "sam",
+        "name": "Sam Van Haren",
+        "imagePath": "aaaaa",
+        "interest": [
+                "being an idiot",
+                "not being an idiot sometimes"
+        ]
+    },
+    {
+        "id": "yuko",
+        "name": "Yuko Ishida",
+        "imagePath": "",
+        "interest": [
+                "eating doughnuts",
+                "playing video games",
+                "cleaning"
+        ]
+    }
+]
