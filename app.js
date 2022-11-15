@@ -13,8 +13,6 @@ const cors = require("cors");
 const indexRouter = require("./routers/indexRouter");
 const apiRouter = require("./routers/apiRouter");
 const profilesRouter = require("./routers/profilesRouter");
-const apiRouter = require("./routers/apiRouter");
-
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
