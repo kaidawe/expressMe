@@ -13,10 +13,7 @@
         "id": "sam",
         "name": "Sam Van Haren",
         "imagePath": "aaaaa",
-        "interest": [
-                "being an idiot",
-                "not being an idiot sometimes"
-        ]
+        "interest": ["being an idiot", "not being an idiot sometimes"]
     },
     {
         "id": "yuko",
