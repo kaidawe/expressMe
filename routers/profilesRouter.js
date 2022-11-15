@@ -33,8 +33,10 @@ const dataPath = path.join(__dirname, "../data/");
         // need to parse the raw buffer as json if we want to work with it
         const profilesJson = JSON.parse(contents);
         //   prepare and send an OK respon
+
+        
         res.render("profile", {
-          title: "Express Yourself -" + profilesJson.name,
+          title: `Express Yourself -  ${req.params.profileId}`,
           profiles: profilesJson,
           layout:"./layouts/side-bar-layout",
           profileId: req.params.profileId
