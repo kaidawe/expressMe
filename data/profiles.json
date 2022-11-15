@@ -5,15 +5,20 @@
         "imagePath": "/images/haleyDawe.png",
         "interest": [
                 "Video games",
-                "cooking",
-                "trading"
+                "holidays",
+                "fun times"
         ]
     },
     {
         "id": "sam",
         "name": "Sam Van Haren",
-        "imagePath": "aaaaa",
-        "interest": ["being an idiot", "not being an idiot sometimes"]
+        "imagePath": "/images/samVH.jpg",
+        "interest": [
+            "Chess",
+            "Reading",
+            "Overwatch",
+            "Cooking"
+        ]
     },
     {
         "id": "yuko",
