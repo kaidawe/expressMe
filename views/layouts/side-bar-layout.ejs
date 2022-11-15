@@ -4,24 +4,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="sidebar-nav" type="text/css" href="/styles/sidebar-style.css">
     <title><%= title %></title>
   </head>
+  <style>
+    #sidebar{
+        display: flex;
+        justify-content: space-between;
+    }
+  </style>
   <body>
     <%- include('../partials/header.ejs') %>
-
-    <main>
-        <section id = "bodytext"><%- body %></section>
-    
-        <nav id="sideBarNav">
-            <ul>
-                <% for (let i = 0; i < profiles.length; i++) { %>
-                <li><a href="/profiles/<%= profiles[i].id%>"><%= profiles[i].name%></a></li>
-                <% } %>
-              </ul>
-        </nav>
-
-    </main>
+    <div id="sidebar">
+    <main><%- body %></main>
+    <ul>
+        <% for (let i = 0; i < profiles.length; i++) { %>
+            <%if(profiles[i].id != profileId) {%>
+                <li><a href="<%= profiles[i].id%>"><%= profiles[i].name%></a></li>
+            <% } %>
+        <% } %>
+    </ul>
+    </div>
     <%- include('../partials/footer.ejs') %>
   </body>
 </html>
