@@ -47,4 +47,4 @@ app.all("/*", (req, res) => {
 });
 
 // start listening
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
