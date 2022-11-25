@@ -11,8 +11,6 @@ const dataPath = path.join(__dirname, "../data/");
 
 profilesRouter.get("/", ProfileController.Index);
 
-// profilesRouter.get("/", ProfileController.Search);
-
 profilesRouter.get("/edit", ProfileController.Create);
 profilesRouter.post("/edit", ProfileController.CreateProfile);
 

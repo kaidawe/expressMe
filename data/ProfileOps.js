@@ -12,7 +12,8 @@ class ProfileOps {
   }
 
   async searchProfiles(string) {
-    let profiles = await Profile.find({name: string}).sort({ name: 1 });
+    const filter = {name: {$regex: string, $options: "i"}};
+    let profiles = await Profile.find(filter).sort({ name: 1 });
     return profiles;
   }
 
