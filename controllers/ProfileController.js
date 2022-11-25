@@ -63,14 +63,10 @@ exports.CreateProfile = async function (request, response) {
   // instantiate a new Profile Object populated with form data
   console.log(request.body);
   let interests = (request.body.interests).split(",")  ;
-  let imagePath = path.join(__dirname ,"../public/images/") + request.files.photo.name;
-  request.files.photo.mv(imagePath);
- 
-
   let tempProfileObj = new Profile({
     name: request.body.name,
     interests: interests,
-    photo: path
+  
   });
 
   
