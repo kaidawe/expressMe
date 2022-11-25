@@ -1,5 +1,19 @@
 "use strict";
 
+const { mongoose } = require("mongoose");
+
+// Replace the uri string with your connection string.
+const uri =
+"mongodb+srv://demo-user3:w48hmLenmZb92gyy@atlascluster.6a2legy.mongodb.net/YukoHaleyProfiles?retryWrites=true&w=majority"
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// store a reference to the default connection
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+
 const express = require("express");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
@@ -26,12 +40,6 @@ app.use(express.static("public"));
 app.use(expressLayouts);
 app.set("layout", "./layouts/full-width");
 
-
-
-// app.get("/yuko", (req, res) => res.sendFile(__dirname + "/pages/yuko"));
-// app.get("/haley", (req, res) => res.sendFile(__dirname + "/pages/haley"));
-// app.get("/sam", (req, res) => res.sendFile(__dirname + "/pages/sam"));
-
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
@@ -48,3 +56,4 @@ app.all("/*", (req, res) => {
 
 // start listening
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
+
