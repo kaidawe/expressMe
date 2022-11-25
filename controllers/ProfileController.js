@@ -1,6 +1,7 @@
 const Profile = require("../models/Profile.js");
 const ProfileOps = require("../data/profileOps");
 const _profileOps = new ProfileOps();
+const path = require("path");
 
 exports.Index = async function (request, response) {
   console.log("loading profiles from controller");
@@ -47,29 +48,6 @@ exports.Detail = async function (request, response) {
 };
 
 
-// exports.Search = async function (request, response) {
-//   const searchName = await request.query.searchProfiles;
-
-//   console.log(searchName);
-
-//   let profiles = await _profileOps.searchProfiles(searchName);
-//   // let profiles = await (await _profileOps.getAllProfiles()).
-
-//   if (profiles) {  
-//     response.render("profiles", {
-//       title: "Express Yourself - Profiles",
-//       profiles: profiles,
-//     });
-//   } else {
-//     response.render("profiles", {
-//       title: "Express Yourself - Profiles",
-//       profiles: [],
-//     });
-//   }
-// };
-
-
-
 // Handle profile form GET request
 exports.Create = async function (request, response) {
   response.render("profile-form", {
@@ -83,16 +61,20 @@ exports.Create = async function (request, response) {
 // Handle profile form GET request
 exports.CreateProfile = async function (request, response) {
   // instantiate a new Profile Object populated with form data
-  let interests = request.body.interests.split(",")
+  console.log(request.body);
+  let interests = (request.body.interests).split(",")  ;
+  let imagePath = path.join(__dirname ,"../public/images/") + request.files.photo.name;
+  request.files.photo.mv(imagePath);
+ 
 
   let tempProfileObj = new Profile({
     name: request.body.name,
     interests: interests,
+    photo: path
   });
 
-  //
+  
   let responseObj = await _profileOps.createProfile(tempProfileObj);
-
 
   if (responseObj.errorMsg == "") {
     let profiles = await _profileOps.getAllProfiles();
@@ -153,12 +135,10 @@ exports.Edit = async function (request, response) {
 exports.EditProfile = async function (request, response) {
   const profileId = request.body.profile_id;
   const profileName = request.body.name;
-  // const profileInterests = request.body.interests;
-  // let profileInterests = "EXAM"
-
+  const profilePhoto = request.body.photo;
   let profileInterests = request.body.interests.split(",")
 
-  let responseObj = await _profileOps.updateProfileById(profileId, profileName,profileInterests);
+  let responseObj = await _profileOps.updateProfileById(profileId, profileName,profileInterests,profilePhoto);
 
   if (responseObj.errorMsg == "") {
     let profiles = await _profileOps.getAllProfiles();
@@ -169,7 +149,6 @@ exports.EditProfile = async function (request, response) {
       layout: "./layouts/side-bar-layout",
     });
   }
-
 
   else {
     console.log("An error occured. Item not created.");
