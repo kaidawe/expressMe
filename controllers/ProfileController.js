@@ -83,8 +83,11 @@ exports.Create = async function (request, response) {
 // Handle profile form GET request
 exports.CreateProfile = async function (request, response) {
   // instantiate a new Profile Object populated with form data
+  let interests = request.body.interests.split(",")
+
   let tempProfileObj = new Profile({
     name: request.body.name,
+    interests: interests,
   });
 
   //
@@ -150,8 +153,12 @@ exports.Edit = async function (request, response) {
 exports.EditProfile = async function (request, response) {
   const profileId = request.body.profile_id;
   const profileName = request.body.name;
+  // const profileInterests = request.body.interests;
+  // let profileInterests = "EXAM"
 
-  let responseObj = await _profileOps.updateProfileById(profileId, profileName);
+  let profileInterests = request.body.interests.split(",")
+
+  let responseObj = await _profileOps.updateProfileById(profileId, profileName,profileInterests);
 
   if (responseObj.errorMsg == "") {
     let profiles = await _profileOps.getAllProfiles();

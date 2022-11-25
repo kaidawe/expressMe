@@ -3,8 +3,12 @@
 <form action="/profiles/edit<%= profile_id ? "/"+profile_id : "" %>" method="POST">   
     <input type="hidden" id="profile_id" name="profile_id" value="<%= profile_id %>">
     <label for="name">Name:</label>
-<input id="name" name="name" type="text" 
-                 value="<%= profile.name ? profile.name : '' %>" >
+    <input id="name" name="name" type="text" 
+                value="<%= profile.name ? profile.name : '' %>" >
+
+    <label for="interests">Interests(input with comma please):</label>
+    <input id="interests" name="interests" type="text" 
+                value="<%= profile.interests ? profile.interests : '' %>" >
                  <button type="submit" value="Submit">Submit</button>
 </form>
 <%= errorMessage %>

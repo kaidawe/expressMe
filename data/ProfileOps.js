@@ -55,11 +55,12 @@ class ProfileOps {
     return result;
   }
 
-  async updateProfileById(id, profileName) {
+  async updateProfileById(id, profileName, profileInterests) {
     console.log(`updating profile by id ${id}`);
     const profile = await Profile.findById(id);
     console.log("original profile: ", profile);
     profile.name = profileName;
+    profile.interests = profileInterests;
 
     let result = await profile.save();
     console.log("updated profile: ", result);
