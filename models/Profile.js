@@ -8,6 +8,9 @@ const profileSchema = mongoose.Schema(
 
 
     interests: Array,
+
+
+    imagePath: { type: "String", required: true },
   },
 
   { collection: "profiles" }

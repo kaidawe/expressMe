@@ -16,8 +16,6 @@ else{
   profiles = await _profileOps.getAllProfiles();
 }
 
-
-
   if (profiles) {
     response.render("profiles", {
       title: "Express Yourself - Profiles",
@@ -108,7 +106,6 @@ exports.CreateProfile = async function (request, response) {
     });
   }
 };
-
 
 exports.DeleteProfileById = async function (request, response) {
   const profileId = request.params.id;
