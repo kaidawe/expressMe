@@ -3,6 +3,8 @@ const ProfileOps = require("../data/profileOps");
 const _profileOps = new ProfileOps();
 const path = require("path");
 
+const dataPath = path.join(__dirname, "../public/");
+
 exports.Index = async function (request, response) {
   console.log("loading profiles from controller");
 let profiles = []
@@ -13,6 +15,8 @@ if(request.query.searchProfiles){
 else{
   profiles = await _profileOps.getAllProfiles();
 }
+
+
 
   if (profiles) {
     response.render("profiles", {
@@ -32,6 +36,8 @@ exports.Detail = async function (request, response) {
   console.log(`loading single profile by id ${profileId}`);
   let profile = await _profileOps.getProfileById(profileId);
   let profiles = await _profileOps.getAllProfiles();
+
+  console.log("Profile:" + profile)
   if (profile) {
     response.render("profile", {
       title: "Express Yourself - " + profile.name,
@@ -39,6 +45,7 @@ exports.Detail = async function (request, response) {
       profileId: request.params.id,
       layout: "./layouts/side-bar-layout",
     });
+
   } else {
     response.render("profiles", {
       title: "Express Yourself - Profiles",
@@ -62,14 +69,22 @@ exports.Create = async function (request, response) {
 exports.CreateProfile = async function (request, response) {
   // instantiate a new Profile Object populated with form data
   console.log(request.body);
+  let path = "";
+  if(request.files != null)
+  {
+    path = dataPath+"/images/"+request.files.photo.name
+    request.files.photo.mv(path)  
+  }
+  console.log("/images/"+request.files.photo.name)
+
   let interests = (request.body.interests).split(",")  ;
   let tempProfileObj = new Profile({
     name: request.body.name,
     interests: interests,
-  
+    imagePath: "/images/"+request.files.photo.name
   });
+  console.log(tempProfileObj)
 
-  
   let responseObj = await _profileOps.createProfile(tempProfileObj);
 
   if (responseObj.errorMsg == "") {
@@ -79,10 +94,10 @@ exports.CreateProfile = async function (request, response) {
       title: "Express Yourself - " + responseObj.obj.name,
       profiles: profiles,
       profileId: responseObj.obj._id.valueOf(),
+      imagePath: responseObj.imagePath,
       layout: "./layouts/side-bar-layout",
     });
   }
-
 
   else {
     console.log("An error occured. Item not created.");

@@ -1,59 +1,77 @@
 "use strict";
 
+//MongoDB connection setup
 const { mongoose } = require("mongoose");
-
-// Replace the uri string with your connection string.
 const uri =
-"mongodb+srv://demo-user3:w48hmLenmZb92gyy@atlascluster.6a2legy.mongodb.net/YukoHaleyProfiles?retryWrites=true&w=majority"
+  "mongodb+srv://demo-user:lKgoG5hRan2y0MHT@ssd-0.lgsgjzq.mongodb.net/test-db?retryWrites=true&w=majority";
 
+// set up default mongoose connection
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // store a reference to the default connection
 const db = mongoose.connection;
 
+// Bind connection to error event (to get notification of connection errors)
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 
 const express = require("express");
-const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
-const app = express();
-const PORT = process.env.PORT || 3004;
-
+const logger = require("morgan");
+const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-// load our routers
 const indexRouter = require("./routers/indexRouter");
-const apiRouter = require("./routers/apiRouter");
 const profilesRouter = require("./routers/profilesRouter");
+const apiRouter = require("./routers/apiRouter");
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+const port = process.env.PORT || 3004;
+const fileupload = require("express-fileupload");
 
+const app = express();
+app.use(fileupload());
+
+// allow cross origin requests from any port on local machine
 app.use(cors({ origin: [/127.0.0.1*/, /localhost*/] }));
 
-const logger = require("morgan");
-app.use(logger("dev")); 
+app.use(logger("dev"));
 
+// use express.static middleware to make the public folder accessible
 app.use(express.static("public"));
-app.use(expressLayouts);
-app.set("layout", "./layouts/full-width");
 
+// Enable layouts
+app.use(expressLayouts);
+
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+
+// Set the default layout
+app.set("layout", "./layouts/full-width");
+
+// Make views folder globally accessible
+app.set("views", path.join(__dirname, "views"));
+// Tell express that we'll be using the EJS templating engine
+app.set("view engine", "ejs");
+
+
+
+// index routes
 app.use(indexRouter);
 
-app.use("/api", apiRouter);
-
+// profiles routes
 app.use("/profiles", profilesRouter);
 
-app.all("/*", (req, res) => {
-  res.status(404).send("File Not Found");
+// api routes
+app.use("/api", apiRouter);
+
+// handle unrecognized routes
+app.get("*", function (req, res) {
+  res.status(404).send('<h2 class="error">File Not Found</h2>');
 });
 
 // start listening
-app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
-
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
