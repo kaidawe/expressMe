@@ -2,7 +2,6 @@ const Profile = require("../models/Profile.js");
 const ProfileOps = require("../data/profileOps");
 const _profileOps = new ProfileOps();
 const path = require("path");
-
 const dataPath = path.join(__dirname, "../public/");
 
 exports.Index = async function (request, response) {
@@ -52,7 +51,6 @@ exports.Detail = async function (request, response) {
   }
 };
 
-
 // Handle profile form GET request
 exports.Create = async function (request, response) {
   response.render("profile-form", {
@@ -71,15 +69,18 @@ exports.CreateProfile = async function (request, response) {
   if(request.files != null)
   {
     path = dataPath+"/images/"+request.files.photo.name
-    request.files.photo.mv(path)  
+    request.files.photo.mv(path) 
+    path = "/images/"+request.files.photo.name
   }
-  console.log("/images/"+request.files.photo.name)
+  else{
+    path = "";
+  }
 
   let interests = (request.body.interests).split(",")  ;
   let tempProfileObj = new Profile({
     name: request.body.name,
     interests: interests,
-    imagePath: "/images/"+request.files.photo.name
+    imagePath: path
   });
   console.log(tempProfileObj)
 
@@ -127,7 +128,6 @@ exports.DeleteProfileById = async function (request, response) {
   }
 };
 
-
 exports.Edit = async function (request, response) {
   const profileId = request.params.id;
   let profileObj = await _profileOps.getProfileById(profileId);
@@ -137,16 +137,28 @@ exports.Edit = async function (request, response) {
     profile_id: profileId,
     profile: profileObj,
   });
+  console.log(profileObj)
 };
-
 
 exports.EditProfile = async function (request, response) {
   const profileId = request.body.profile_id;
   const profileName = request.body.name;
-  const profilePhoto = request.body.photo;
-  let profileInterests = request.body.interests.split(",")
 
-  let responseObj = await _profileOps.updateProfileById(profileId, profileName,profileInterests,profilePhoto);
+  let path = "";
+  console.log("BOOOOOOOO" + request.files.photo.value)
+
+  if(request.files != null)
+  {
+    path = dataPath+"/images/"+request.files.photo.name
+    request.files.photo.mv(path) 
+    path = "/images/"+request.files.photo.name
+  }
+  else{
+    path = request.files.photo.value;
+  }
+
+  let profileInterests = request.body.interests.split(",")
+  let responseObj = await _profileOps.updateProfileById(profileId, profileName,profileInterests,path);
 
   if (responseObj.errorMsg == "") {
     let profiles = await _profileOps.getAllProfiles();
